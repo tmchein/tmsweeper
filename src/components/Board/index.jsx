@@ -26,7 +26,13 @@ const Board = ({ boardSize, numberOfMines }) => {
       if (status === TILE_STATUS.NUMBER) {
         return prevBoard;
       }
-      newBoard[x][y].status = TILE_STATUS.MARKED;
+
+      if (status === TILE_STATUS.MARKED) {
+        newBoard[x][y].status = TILE_STATUS.HIDDEN;
+      } else {
+        newBoard[x][y].status = TILE_STATUS.MARKED;
+      }
+
       return newBoard;
     });
   }
