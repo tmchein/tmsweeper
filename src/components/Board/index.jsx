@@ -10,20 +10,33 @@ const Board = ({ boardSize, numberOfMines }) => {
     console.log(board);
   }, [board]);
 
-  function changeTileStatus(x, y, status) {
+  function changeTileStatus(x, y, status, mine) {
     return setBoard((prevBoard) => {
       const newBoard = [...prevBoard];
-      if (status === TILE_STATUS.NUMBER) return prevBoard;
+
+      if (status === TILE_STATUS.MINE) {
+        return prevBoard;
+      }
+
+      if (mine) {
+        newBoard[x][y].status = TILE_STATUS.MINE;
+        return newBoard;
+      }
+
+      if (status === TILE_STATUS.NUMBER) {
+        return prevBoard;
+      }
+
       newBoard[x][y].status = TILE_STATUS.NUMBER;
       return newBoard;
     });
   }
 
-  function rcChangeTileStatus(e, x, y, status) {
+  function rcChangeTileStatus(e, x, y, status, mine) {
     e.preventDefault();
     return setBoard((prevBoard) => {
       const newBoard = [...prevBoard];
-      if (status === TILE_STATUS.NUMBER) {
+      if (status === TILE_STATUS.NUMBER || mine) {
         return prevBoard;
       }
 
@@ -46,14 +59,14 @@ const Board = ({ boardSize, numberOfMines }) => {
       }}
     >
       {board.map((row) =>
-        row.map(({ status, x, y }) => {
+        row.map(({ status, x, y, mine }) => {
           return (
             <button
               key={`tile-${x}-${y}`}
-              className="font-bold text-center w-8 h-8 px-2 
+              className="font-bold text-center  h-8 px-2 
               border-b-4 border-x-0 rounded-md bg-white"
-              onClick={() => changeTileStatus(x, y, status)}
-              onContextMenu={(e) => rcChangeTileStatus(e, x, y, status)}
+              onClick={() => changeTileStatus(x, y, status, mine)}
+              onContextMenu={(e) => rcChangeTileStatus(e, x, y, status, mine)}
             >
               {status}
             </button>
