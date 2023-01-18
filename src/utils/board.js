@@ -1,3 +1,5 @@
+import { getMinePositions, positionMatch } from "./mines";
+
 export const TILE_STATUS = {
   HIDDEN: "hidden",
   MINE: "mine",
@@ -7,6 +9,8 @@ export const TILE_STATUS = {
 
 export function createBoard(boardSize, numberOfMines) {
   const board = [];
+  const minePositions = getMinePositions(boardSize, numberOfMines);
+  console.log(minePositions);
   for (let x = 0; x < boardSize; x++) {
     const row = [];
     for (let y = 0; y < boardSize; y++) {
@@ -15,6 +19,7 @@ export function createBoard(boardSize, numberOfMines) {
         status: initialStatus,
         x,
         y,
+        mine: minePositions.some((p) => positionMatch(p, { x, y })),
       };
       row.push(tile);
     }

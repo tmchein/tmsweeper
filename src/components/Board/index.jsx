@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createBoard, TILE_STATUS } from "../../utils/board";
 
-const Board = ({ boardSize }) => {
-  const initialState = createBoard(boardSize);
+const Board = ({ boardSize, numberOfMines }) => {
+  const initialState = createBoard(boardSize, numberOfMines);
   const [board, setBoard] = useState(initialState);
+
+  // For debugging purposes
+  useEffect(() => {
+    console.log(board);
+  }, [board]);
 
   function changeTileStatus(x, y, status) {
     return setBoard((prevBoard) => {
       const newBoard = [...prevBoard];
+      if (status === TILE_STATUS.NUMBER) return prevBoard;
       newBoard[x][y].status = TILE_STATUS.NUMBER;
       return newBoard;
     });
@@ -18,7 +24,7 @@ const Board = ({ boardSize }) => {
     return setBoard((prevBoard) => {
       const newBoard = [...prevBoard];
       if (status === TILE_STATUS.NUMBER) {
-        return newBoard;
+        return prevBoard;
       }
       newBoard[x][y].status = TILE_STATUS.MARKED;
       return newBoard;
