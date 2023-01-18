@@ -4,7 +4,7 @@ import Board from "./components/Board";
 function App() {
   return (
     <div>
-      <Board boardSize={2} numberOfMines={1} />
+      <Board boardSize={4} numberOfMines={4} />
     </div>
   );
 }

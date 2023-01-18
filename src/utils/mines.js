@@ -20,3 +20,16 @@ export function positionMatch(a, b) {
 function randomNumber(size) {
   return Math.floor(Math.random() * size);
 }
+
+export function nearbyTiles(board, { x, y }) {
+  const tiles = [];
+  for (let xOffset = -1; xOffset <= 1; xOffset++) {
+    for (let yOffset = -1; yOffset <= 1; yOffset++) {
+      const tile = board[x + xOffset]?.[y + yOffset];
+      if (tile) {
+        tiles.push(tile);
+      }
+    }
+  }
+  return tiles;
+}
